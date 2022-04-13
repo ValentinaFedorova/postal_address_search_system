@@ -56,7 +56,7 @@ def insert_new_html(new_links):
 
 c_url = 0
 url_data_path = str(pathlib.Path().resolve()) + '\\url_content_data'
-cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=DESKTOP-2ELPTI6;DATABASE=prom')
+cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=SERVER_NAME;DATABASE=prom')
 cursor = cnxn.cursor()
 cursor.fast_executemany = True
 
