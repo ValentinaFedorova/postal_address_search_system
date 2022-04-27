@@ -30,7 +30,7 @@ stop_words = ["федерация","муниципальный","рб","жило
               "находящаяся","находящегося","кадастровый","земельного","участка","управление",
               "рф","адресу","адрес","росреестр","росреестра","республика","респ","край"]
 
-cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=DESKTOP-2ELPTI6;DATABASE=prom')
+cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=MY_SERVER;DATABASE=prom')
 
 
 
@@ -83,7 +83,6 @@ def lemmatize_sent(sent,excludes):
 
 
 #загрузка улиц по ключевым словам 
-#как сравнивать contains или разбить на части?
 df_area_street = pd.read_sql("SELECT [NAME],[SOCR],[CODE] FROM [OARB].[STREET] (nolock) where lower([NAME]) like '%край%' and lower([NAME]) not like '%крайняя%' and lower([NAME]) not like '%крайний%' and lower([NAME]) not like '%окрайная%' and lower([NAME]) not like '%крайние%' and lower([NAME]) not like '%крайная%' and lower([NAME]) not like '%крайнея%' and lower([NAME]) not like '%крайнюка%' and lower([NAME]) not like '%окрайный%' and lower([NAME]) not like '%крайнюковская%' and lower([NAME]) not like '%крайновых%' and lower([NAME]) not like '%макрай%' and lower([NAME]) not like '%крайникова%'" ,cnxn, index_col="CODE")
 df_republic_street = pd.read_sql("SELECT [NAME],[SOCR],[CODE] FROM [OARB].[STREET] (nolock) where lower([NAME]) like '%респ%' or lower([NAME]) like '%республика%' and lower([NAME]) not like '%переспективная%' and lower([NAME]) not like '%респект%' and lower([NAME]) not like '%корреспондентский%' and lower([NAME]) not like '%чересполосный%' and lower([NAME]) not like '%корреспондентов%'",cnxn, index_col="CODE")
 
@@ -151,7 +150,6 @@ def get_part_of_speech(word):
     return 'UNDEF'
     
 def get_house_number(house_regex,str_address_wo_flat):
-    #house_regex = r"(( |,|, )((дом)|(д)){1}(\.| |\. )?(\d{1,4}(а|б|в|г|д|е|ж|з|к|л|м|н|п|р|с|т)?(\/)?(\d{1,4}?(а|б|в|г|д|е|ж|з|к|л|м|н|п|р|с|т)?)?))"
     found_house_number = re.search(house_regex,str_address_wo_flat) 
     if found_house_number is not None:
         found_house_number = found_house_number.group(0)
@@ -396,8 +394,6 @@ def load_addresses_from_db():
              
         street = ""
         street_code = ""
-        #processed = 0
-        #Добавить похожую проверку на республику, край, район и тд по ключевым словам
         reg_mcr = re.findall(r"(\d+)(\-)*[й]*\ ((мкр)|(микрорайон)|(мк-н))",str_address)
         if len(reg_mcr) > 0:
             for i in range(len(reg_mcr)):
@@ -454,7 +450,6 @@ def load_addresses_from_db():
                 # \d{1,4}-\d{1,4}        
             
                     
-        #Проверка на тип для того, чтобы не попадал микрорайон. Нужно ли искать его в датафрейме?    
         if len(street) == 1 and type(street) != str:
             street_code = street[0].Index
             if len(cur_city_code_arr) > 1:
