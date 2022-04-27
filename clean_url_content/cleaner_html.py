@@ -29,7 +29,7 @@ def find_header(header_tag, parser_data):
     url_headers[header_tag] = header_text
 
 
-url_dataset_path = 'D:\\magistrValya\\address_search_system\\search_bot_module\\url_content_data'
+url_dataset_path = 'my_path'
 prefix = 'clean_'
 files = os.listdir(path=url_dataset_path)
 files.remove('headers')
@@ -52,6 +52,6 @@ for file in files:
                 content_text.append(el.text)
         content_text = make_string(content_text)
         save_file(url_dataset_path, file, content_text)
-        url_headers_path = 'D:\\magistrValya\\address_search_system\\search_bot_module\\url_content_data\\headers\\header_' + url_id + '.json'
+        url_headers_path = 'path\\header_' + url_id + '.json'
         with open(url_headers_path, "w") as write_file:
             json.dump(url_headers, write_file)  
