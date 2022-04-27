@@ -126,7 +126,7 @@ def parts_of_name(word):
 
 
                 
-cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=DESKTOP-2ELPTI6;DATABASE=prom')
+cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=MY_SERVER;DATABASE=prom')
 df_cities = pd.read_sql('SELECT NAME,CODE,SOCR FROM [OARB].[KLADR] (nolock) order by [NAME]',cnxn, index_col="CODE")
 
 
@@ -176,9 +176,6 @@ df_mcr = df_cities[df_cities['SOCR'] == 'мкр']
 
 df_quarter = df_cities[df_cities['SOCR'] == 'кв-л']
 
-
-
-print(subjects)
 
 
   
@@ -822,7 +819,7 @@ def read_file(file_path):
     f.close()
     return file_content
 
-url_dataset_path = 'D:\\magistrValya\\address_search_system\\search_bot_module\\url_content_data'
+url_dataset_path = 'my_path'
 prefix = 'clean_'
 files = os.listdir(path=url_dataset_path)
 files.remove('headers')
@@ -842,13 +839,12 @@ for file in files:
                     if found_items is not None:
                         print(el)
                         cursor = cnxn.cursor()
-                        #добавить проверку на длину предложения
                         if len(s_text) > 1000:
                              s_text = s_text[:999]
                         cursor.execute("insert into [OARB].[ADDRESS] ([URL_ID], [SENT], [PROCESSED], [REGION], [REGION_CODE], [DISTRICT], [DISTRICT_CODE], [CITY], [CITY_CODE],[p_tag_text]) values (?,?,?,?,?,?,?,?,?,?)",url_id, s_text, 1,found_items['region'],found_items['region_code'],found_items['strdistrict'],found_items['str_district_code'],found_items['strcity'],found_items['str_city_code'],el)
                         cnxn.commit()
 
-os.system(r"D:/magistrValya/address_search_system/search_bot_module/copy_and_del.bat")
+os.system(r"path/copy_and_del.bat")
 
 cursor.close()
 cnxn.close()
