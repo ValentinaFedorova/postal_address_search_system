@@ -24,11 +24,11 @@ def get_coords(addr_text):
  
 
 
-geocode_API_key = '7d4fd90a-cf16-44aa-b6a1-3c51855a47d5'
+geocode_API_key = 'my_key'
 
 kw_with_dot = ['тер','мкр','х','пл','пер','п','с','стр','д','наб','м','ул','ш','обл','ст','Респ','г']
 
-cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=DESKTOP-2ELPTI6;DATABASE=prom')
+cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=MY_SERVER;DATABASE=prom')
 cursor = cnxn.cursor()
 addresses = pd.read_sql("SELECT [URL_ID],[SENT],[REGION],[REGION_SOCR],[DISTRICT],[DISTRICT_SOCR],[CITY],[CITY_SOCR],[STREET], [STREET_SOCR], [HOUSE] FROM [OARB].[ADDRESS] (nolock) where [PROCESSED] = 2",cnxn)
 for addr in addresses.itertuples():
