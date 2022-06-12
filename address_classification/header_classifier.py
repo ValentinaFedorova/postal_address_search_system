@@ -37,7 +37,7 @@ def read_data(path_to_file):
 url_processed_data_path = str(pathlib.Path().resolve()) + '\\search_bot_module\\url_content_data\\processed\\'
 url_data_path = str(pathlib.Path().resolve()) + '\\search_bot_module\\url_content_data\\headers\\'
 
-cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=DESKTOP-2ELPTI6;DATABASE=prom')
+cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=MY_SERVER;DATABASE=prom')
 
 
 # url_id_list = pd.read_sql("select URL_ID from OARB.ADDRESS where processed = 3 group by URL_ID having count(*) > 3",cnxn)['URL_ID'].values.tolist()
