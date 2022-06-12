@@ -84,7 +84,7 @@ kw_threegrams = [x for x in stemmed_key_words.keys() if len(x)==3]
 
 
 
-cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=DESKTOP-2ELPTI6;DATABASE=prom')
+cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER=MY_SERVER;DATABASE=prom')
 cursor = cnxn.cursor()
 
 processed_data = pd.read_sql("select distinct a.URL_ID, a.p_tag_text, l.path_to_content from OARB.ADDRESS a inner join OARB.LINKS l on a.URL_ID = l.ID where a.processed = 3 order by a.URL_ID",cnxn)
